@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sobrecarga progresiva · Registro de gimnasio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Registro de sobrecarga progresiva</h1>
+    <p>Anota cada serie y comprueba si hoy levantaste más que en tu sesión anterior.</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel log" aria-labelledby="t-log">
+      <h2 id="t-log">Anotar serie</h2>
+
+      <label for="exercise">Ejercicio</label>
+      <select id="exercise"></select>
+      <div class="add">
+        <input id="newExercise" type="text" maxlength="40" placeholder="Añadir otro ejercicio" aria-label="Nombre del nuevo ejercicio">
+        <button type="button" id="addExercise">Añadir</button>
+      </div>
+
+      <form id="form" autocomplete="off">
+        <div class="grid2">
+          <label>Fecha <input type="date" id="date" required></label>
+          <label>Peso (kg) <input type="number" id="weight" min="0" step="0.25" inputmode="decimal" required></label>
+          <label>Repeticiones <input type="number" id="reps" min="1" step="1" inputmode="numeric" required></label>
+          <label>RIR <input type="number" id="rir" min="0" max="10" step="1" inputmode="numeric"></label>
+          <label>Descanso (seg) <input type="number" id="rest" min="0" step="5" inputmode="numeric"></label>
+        </div>
+        <label>Notas <input type="text" id="note" maxlength="120" placeholder="Agarre, técnica, sensaciones"></label>
+        <button class="primary" type="submit">Guardar serie</button>
+        <p id="status" class="status" role="status"></p>
+      </form>
+
+      <p class="help">RIR son las repeticiones que te quedaban en reserva antes del fallo. El 1RM estimado se calcula con la fórmula de Epley.</p>
+      <p id="hint" class="hint"></p>
+      <button type="button" id="export" class="ghost">Descargar CSV</button>
+    </section>
+
+    <section class="progress" aria-labelledby="t-prog">
+      <h2 id="t-prog" class="sr-only">Progreso</h2>
+      <div class="stats" id="stats"></div>
+
+      <div class="panel">
+        <div class="row">
+          <h2 id="progTitle">Evolución</h2>
+          <label class="metric">Métrica
+            <select id="metric">
+              <option value="e1rm">1RM estimado (kg)</option>
+              <option value="maxW">Peso máximo (kg)</option>
+              <option value="volume">Volumen total (kg)</option>
+            </select>
+          </label>
+        </div>
+        <canvas id="chart" role="img" aria-label="Gráfica de progreso por sesión; los mismos datos están en la tabla de sesiones"></canvas>
+        <p class="legend"><span class="dot"></span> Nuevo récord personal en la métrica elegida</p>
+      </div>
+
+      <div class="panel">
+        <h2>Sesiones</h2>
+        <div class="scroll"><table id="sessions"></table></div>
+      </div>
+
+      <div class="panel">
+        <h2>Series registradas</h2>
+        <div class="scroll"><table id="sets"></table></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
